@@ -1,0 +1,9 @@
+version: '3'
+
+env_file: .env
+
+services:
+    kaggle:
+        build: ${COMPOSE_PROJECT_ROOT}
+        volumes: ${COMPOSE_PROJECT_ROOT}/mount:/mount:rw
+        ports: "8888:8888"

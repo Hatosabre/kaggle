@@ -1,0 +1,28 @@
+#!/bin/bash
+set -e
+
+usage() {
+cat << EOF
+Usage: $0 [OPTIONS]
+Build a new jupyter Docker image.
+
+Options:
+    -g, --gpu                 Build an image with GPU support(Not Ready).
+EOF
+}
+
+CACHE_FLAG='--no-cache'
+DOCKERFILE='Dockerfile'
+IMAGE_TAG='ht5br/jupyter'
+BUILD_ARGS=''
+
+BUILD_ARGS+=" --build-arg GIT_COMMIT=$(git rev-parse HEAD)"
+BUILD_ARGS+=" --build-arg BUILD_DATE=$(date '+%Y%m%d-%H%M%S')"
+
+readonly CACHE_FLAG
+readonly DOCKERFILE
+readonly IMAGE_TAG
+readonly BUILD_ARGS
+
+set -x
+docker build --rm --pull $CACHE_FLAG -t "$IMAGE_TAG" -f "$DOCKERFILE" $BUILD_ARGS .
